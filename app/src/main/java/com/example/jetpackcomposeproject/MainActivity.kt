@@ -11,11 +11,14 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,13 +36,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -50,9 +56,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -64,6 +74,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ChainStyle
@@ -111,7 +123,8 @@ class MainActivity : ComponentActivity() {
             //LazyColumList2()
             //ExploreConstraintLayout()
             //EffectHandler()
-            BoxAnimation()
+            //BoxAnimation()
+            CreateBizCard()
 
         }
     }
@@ -134,7 +147,7 @@ fun Greetings(name: String) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun Preview() {
     //Greetings(name = "Aman")
@@ -610,4 +623,183 @@ fun BoxAnimation() {
             Text(text = "Increase Size")
         }
     }
+}
+
+//@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun CreateBizCard() {
+    var portfolioVisibilityState by remember {
+        mutableStateOf(false)
+    }
+    Surface(modifier = Modifier
+        .fillMaxSize()
+        .padding(10.dp)) {
+        Card(modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+            shape = RoundedCornerShape(10.dp)) {
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CreateProfileImage()
+                Divider()
+                Text(text = "Aman Ullah", fontWeight = FontWeight.Bold, fontSize = 14.sp, fontStyle = FontStyle.Normal, color = Color.Blue)
+                Text(text = "aman@gmail.com", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+
+                Button(onClick = {
+                                 portfolioVisibilityState = !portfolioVisibilityState
+                                 },
+                    shape = RoundedCornerShape(5.dp)
+                ) {
+                    Text(text = "Portfolio")
+                }
+                if (portfolioVisibilityState) {
+                    PortfolioContent()
+                }else {
+                    Box() {
+
+                    }
+                }
+
+            }
+
+        }
+    }
+}
+
+@Composable
+private fun PortfolioContent() {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.LightGray)
+        .border(2.dp, Color.Gray, RectangleShape)
+    ) {
+        LazyColumn {
+            items(50) { index ->
+                Spacer(modifier = Modifier.height(5.dp))
+                val constraints = ConstraintSet {
+                    val imageBox = createRefFor("imageBox")
+                    val titleBox = createRefFor("titleBox")
+                    val descriptionBox = createRefFor("descriptionBox")
+
+                    constrain(imageBox) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+
+                        width = Dimension.wrapContent
+                        height = Dimension.wrapContent
+                    }
+
+                    constrain(titleBox) {
+                        start.linkTo(imageBox.end)
+                        top.linkTo(parent.top)
+
+                        width = Dimension.wrapContent
+                        height = Dimension.wrapContent
+                    }
+
+                    constrain(descriptionBox) {
+                        start.linkTo(imageBox.end)
+                        top.linkTo(titleBox.bottom)
+                        bottom.linkTo(parent.bottom)
+
+                        width = Dimension.wrapContent
+                        height = Dimension.wrapContent
+                    }
+
+                    createVerticalChain(titleBox, descriptionBox)
+                }
+
+                ConstraintLayout(constraints, modifier = Modifier.fillMaxWidth()) {
+                    CreateProfileImage(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(2.dp)
+                            .layoutId("imageBox")
+                    )
+                    Text(
+                        text = "Project $index", modifier = Modifier.layoutId("titleBox"),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(text = "Description $index", modifier = Modifier.layoutId("descriptionBox"))
+
+                    Divider()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CreateProfileImage(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier
+            .size(70.dp)
+            .padding(5.dp),
+        shape = CircleShape,
+        border = BorderStroke(width = 2.dp, Color.LightGray)
+    ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.profile_image),
+            contentDescription = "Profile Image",
+            contentScale = ContentScale.FillBounds
+        )
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun CreateCircularProgress(
+    percentage: Float,
+    number: Int,
+    fontSiz: TextUnit = 25.sp,
+    radius: Dp = 50.dp,
+    color: Color = Color.Green,
+    strokeWidth: Dp = 8.dp,
+    animationDuration: Int = 1000,
+    animDelay: Int = 0
+
+) {
+    var animationPlayed by remember {
+        mutableStateOf(false)
+    }
+
+    val currentPercentage = animateFloatAsState(
+        targetValue = if (animationPlayed) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animationDuration,
+            delayMillis = animDelay
+            )
+    )
+
+    LaunchedEffect(key1 = true) {
+        animationPlayed = true
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.size(radius * 2f)) {
+
+        Canvas(modifier = Modifier.size(radius * 2f)) {
+            drawArc(
+                color = color,
+                -90f,
+                360 * currentPercentage.value,
+                useCenter = false,
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+            )
+        }
+
+        Text(
+            text = (currentPercentage.value * number).toInt().toString(),
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+    }
+    
 }
