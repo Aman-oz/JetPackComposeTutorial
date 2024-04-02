@@ -124,7 +124,12 @@ class MainActivity : ComponentActivity() {
             //ExploreConstraintLayout()
             //EffectHandler()
             //BoxAnimation()
-            CreateBizCard()
+            //CreateBizCard()
+
+           /* Box(modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center) {
+                CreateCircularProgress(percentage = 0.8f, number = 100)
+            }*/
 
         }
     }
@@ -798,6 +803,7 @@ fun CreateCircularProgress(
         Text(
             text = (currentPercentage.value * number).toInt().toString(),
             color = Color.Black,
+            fontSize = fontSiz,
             fontWeight = FontWeight.Bold
         )
     }
