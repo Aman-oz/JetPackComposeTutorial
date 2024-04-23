@@ -82,6 +82,7 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.example.jetpackcomposeproject.ui.theme.HomeScreen
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -92,6 +93,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            HomeScreen()
             //Greetings("Aman")//1st
             //ExploringModifier()
 
@@ -757,7 +760,7 @@ private fun CreateProfileImage(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CreateCircularProgress(
     percentage: Float,
