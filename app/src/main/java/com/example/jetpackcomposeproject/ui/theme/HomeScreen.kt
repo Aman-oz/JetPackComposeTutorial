@@ -105,7 +105,7 @@ fun ChipSection(
 
 @Composable
 fun CurrentMeditation(
-    color: Color = Pink40
+    color: Color = Purple40
 ) {
     Row(
 
