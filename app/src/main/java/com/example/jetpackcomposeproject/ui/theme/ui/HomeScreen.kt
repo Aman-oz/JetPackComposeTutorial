@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeproject.ui.theme
+package com.example.jetpackcomposeproject.ui.theme.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,12 +28,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
@@ -44,6 +42,24 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposeproject.R
 import com.example.jetpackcomposeproject.models.BottomMenuContent
 import com.example.jetpackcomposeproject.models.Feature
+import com.example.jetpackcomposeproject.ui.theme.AquaBlue
+import com.example.jetpackcomposeproject.ui.theme.Beige1
+import com.example.jetpackcomposeproject.ui.theme.Beige2
+import com.example.jetpackcomposeproject.ui.theme.Beige3
+import com.example.jetpackcomposeproject.ui.theme.BlueViolet1
+import com.example.jetpackcomposeproject.ui.theme.BlueViolet2
+import com.example.jetpackcomposeproject.ui.theme.BlueViolet3
+import com.example.jetpackcomposeproject.ui.theme.ButtonBlue
+import com.example.jetpackcomposeproject.ui.theme.DarkerButtonBlue
+import com.example.jetpackcomposeproject.ui.theme.DeepBlue
+import com.example.jetpackcomposeproject.ui.theme.LightGreen1
+import com.example.jetpackcomposeproject.ui.theme.LightGreen2
+import com.example.jetpackcomposeproject.ui.theme.LightGreen3
+import com.example.jetpackcomposeproject.ui.theme.LightRed
+import com.example.jetpackcomposeproject.ui.theme.OrangeYellow1
+import com.example.jetpackcomposeproject.ui.theme.OrangeYellow2
+import com.example.jetpackcomposeproject.ui.theme.OrangeYellow3
+import com.example.jetpackcomposeproject.ui.theme.TextWhite
 import com.example.jetpackcomposeproject.utils.standardQuadFromTo
 
 @Preview(showBackground = true, showSystemUi = true)
